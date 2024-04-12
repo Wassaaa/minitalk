@@ -1,0 +1,18 @@
+{
+	"configurations": [
+	  {
+		"name": "mine",
+		"includePath": [
+		  "${workspaceFolder}/include",
+		  "${workspaceFolder}/libft",
+		  "${workspaceFolder}/libft/include"
+		],
+		"defines": [],
+		"compilerPath": "/usr/bin/clang",
+		"cStandard": "${default}",
+		"cppStandard": "${default}",
+		"intelliSenseMode": "${default}"
+	  }
+	],
+	"version": 4
+  }
