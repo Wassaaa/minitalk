@@ -28,7 +28,10 @@
 		"algorithm": "c",
 		"string": "c",
 		"type_traits": "c",
-		"types.h": "c"
+		"types.h": "c",
+		"minitalk.h": "c",
+		"_pid_t.h": "c",
+		"signal.h": "c"
 	},
 	"cmake.configureOnOpen": false
 }

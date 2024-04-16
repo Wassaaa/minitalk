@@ -6,12 +6,12 @@
 #    By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/12 14:15:32 by aklein            #+#    #+#              #
-#    Updated: 2024/04/12 14:55:44 by aklein           ###   ########.fr        #
+#    Updated: 2024/04/16 18:14:37 by aklein           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CLIENT_SRC			=	client.c
-SERVER_SRC			=	server.c
+CLIENT_SRCS		=	client.c
+SERVER_SRCS		=	server.c
 
 ################################################################################
 # COMPILATION
@@ -44,7 +44,7 @@ M_ARCHIVES		=	$(S_ARCHIVE) $(C_ARCHIVE) $(LIBFT)
 ################################################################################
 CLIENT			=	client
 CLIENT_SRC		=	./src/client
-S_OBJECTS		=	$(addprefix $(OBJ_DIR)/, $(CLIENT_SRC:%.c=%.o))
+C_OBJECTS		=	$(addprefix $(OBJ_DIR)/, $(CLIENT_SRCS:%.c=%.o))
 C_MAIN			=	./c_main.c
 C_ARCHIVE		=	$(ARCHIVES)/client.a
 
@@ -53,7 +53,7 @@ C_ARCHIVE		=	$(ARCHIVES)/client.a
 ################################################################################
 SERVER			=	server
 SERVER_SRC		=	./src/server
-S_OBJECTS		=	$(addprefix $(OBJ_DIR)/, $(SERVER_SRC:%.c=%.o))
+S_OBJECTS		=	$(addprefix $(OBJ_DIR)/, $(SERVER_SRCS:%.c=%.o))
 S_MAIN			=	./s_main.c
 S_ARCHIVE		=	$(ARCHIVES)/server.a
 
@@ -61,13 +61,13 @@ S_ARCHIVE		=	$(ARCHIVES)/server.a
 # RULES
 ################################################################################
 
-all: $(SERVER) $(CLIENT)
+all: $(CLIENT) $(SERVER)
 
 $(SERVER): $(LIBFT) $(S_ARCHIVE) $(S_MAIN)
-	$(CC_FULL) $(S_MAIN) $(M_ARCHIVES) -o $(SERVER)
+	$(CC_FULL) $(S_MAIN) $(S_ARCHIVE) $(LIBFT) -o $(SERVER)
 
-$(CLEINT): $(LIBFT) $(C_ARCHIVE) $(C_MAIN)
-	$(CC_FULL) $(C_MAIN) $(M_ARCHIVES) -o $(CLIENT)
+$(CLIENT): $(LIBFT) $(C_ARCHIVE) $(C_MAIN)
+	$(CC_FULL) $(C_MAIN) $(C_ARCHIVE) $(LIBFT) -o $(CLIENT)
 
 $(LIBFT): libft_force
 	make -C $(LIBFT_DIR)
@@ -90,7 +90,7 @@ $(OBJ_DIR)/%.o:%.c $(M_HEADER)
 	$(CC_FULL) -c $< -o $@
 
 clean:
-	rm -rf $(OBJ_DIR) $(ARCHIVES)
+	rm -rf $(OBJ_DIR) $(ARCHIVES) $(SERVER).dSYM/ $(CLIENT).dSYM/
 	make clean -C $(LIBFT_DIR)
 
 fclean: clean
