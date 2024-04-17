@@ -23,12 +23,12 @@
 			"preLaunchTask": "make"
 		},
 	  {
-		"name": "(gdb) prompt args",
+		"name": "(gdb) client",
 		"type": "cppdbg",
 		"request": "launch",
-		"program": "${workspaceFolder}/minitalk",
+		"program": "${workspaceFolder}/client",
 		"args": [
-			"${input:args}"
+			"${input:args}", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
 		],
 		"stopAtEntry": false,
 		"cwd": "${workspaceFolder}",
@@ -41,14 +41,22 @@
 			"description": "Enable pretty-printing for gdb",
 			"text": "-enable-pretty-printing",
 			"ignoreFailures": true
-		  }
+		  },
+		  {
+			"description": "Disable breaking on SIGUSR1",
+			"text": "handle SIGUSR1 nostop noprint pass"
+		},
+		{
+			"description": "Disable breaking on SIGUSR2",
+			"text": "handle SIGUSR2 nostop noprint pass"
+		},
 		]
 	  },
 	  {
-		"name": "(gdb) fixed args",
+		"name": "(gdb) server",
 		"type": "cppdbg",
 		"request": "launch",
-		"program": "${workspaceFolder}/minitalk",
+		"program": "${workspaceFolder}/server",
 		"args": [],
 		"stopAtEntry": false,
 		"cwd": "${workspaceFolder}",
@@ -61,37 +69,30 @@
 			"description": "Enable pretty-printing for gdb",
 			"text": "-enable-pretty-printing",
 			"ignoreFailures": true
-		  }
+		  },
+          {
+			"description": "Disable breaking on SIGUSR1",
+			"text": "handle SIGUSR1 nostop noprint pass"
+		},
+		{
+			"description": "Disable breaking on SIGUSR2",
+			"text": "handle SIGUSR2 nostop noprint pass"
+		},
 		]
-	  },
-	  {
-		"name": "(gdb school) fixed args",
-		"type": "cppdbg",
-		"request": "launch",
-		"program": "${workspaceFolder}/minitalk",
-		"args": [],
-		"stopAtEntry": false,
-		"cwd": "${workspaceFolder}",
-		"environment": [],
-		"externalConsole": false,
-		"MIMode": "gdb",
-		"miDebuggerPath": "/Users/aklein/.brew/bin/gdb",
-		"preLaunchTask": "make",
-		"setupCommands": [
-		  {
-			"description": "Enable pretty-printing for gdb",
-			"text": "-enable-pretty-printing",
-			"ignoreFailures": true
-		  }
-		]
-	  },
+	  }
 	],
+		"compounds": [
+			{
+				"name": "client and server Debug",
+				"configurations": ["(gdb) client", "(gdb) server"]
+			}
+		],
 	"inputs": [
 		{
 		  "id": "args",
 		  "type":"promptString",
 		  "description": "args",
-		  "default": "",
+		  "default": "42",
 		},
 	  ]
 

@@ -6,43 +6,55 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:33:17 by aklein            #+#    #+#             */
-/*   Updated: 2024/04/16 18:50:00 by aklein           ###   ########.fr       */
+/*   Updated: 2024/04/17 05:44:35 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minitalk.h>
-#include <signal.h>
-#include <sys/types.h>
-#include <unistd.h>
 
-void	handle_sigint(int sig)
+void	handle_sigusr(int sig, siginfo_t *siginfo, void *cont)
 {
-	if (sig == SIGINT)
+	static char	c = 0;
+	static int	i = 0;
+	(void)cont;
+
+	// ft_printf("signal '%d' from PID: %d\n", sig, siginfo->si_pid);
+	if (sig == SIGUSR1)
+		c = c | (1 << (7 - i));
+	i++;
+	if (i > 7)
 	{
-		ft_printf("Caught signal %d\n", sig);
-		// exit(1);
+		ft_printf("%c", c);
+		i = 0;
+		c = 0;
 	}
+	if (sig == SIGUSR1)
+		kill(siginfo->si_pid, SIGUSR1);
+	else
+		kill(siginfo->si_pid, SIGUSR2);
 }
 
-void	handle_sigusr(int sig)
-{
-
-}
+#include <stdio.h>
 
 int	main()
 {
 	struct sigaction	action;
-	sigset_t			signal_set;
+	int					pid;
 
-	sigemptyset(&signal_set);
-	sigaddset(&signal_set, SIGINT);
+	pid = (int)getpid();
+
+	char cmd[256];
+	snprintf(cmd, sizeof(cmd), "echo %d | xclip -selection clipboard", pid);
+    system(cmd);
+
 	ft_bzero(&action, sizeof(action));
-	action.sa_handler = &handle_sigint;
-	action.sa_mask = signal_set;
-	sigaction(SIGINT, &action, NULL);
+	action.sa_flags = SA_SIGINFO;
+	action.sa_sigaction = &handle_sigusr;
+	sigaction(SIGUSR1, &action, NULL);
+	sigaction(SIGUSR2, &action, NULL);
+	ft_printf("%d\n", pid);
 	while (42)
 	{
-		ft_printf("%d\n", getpid());
 		sleep(1);
 	}
 	return(0);

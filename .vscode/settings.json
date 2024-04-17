@@ -31,7 +31,8 @@
 		"types.h": "c",
 		"minitalk.h": "c",
 		"_pid_t.h": "c",
-		"signal.h": "c"
+		"signal.h": "c",
+		"features.h": "c"
 	},
 	"cmake.configureOnOpen": false
 }

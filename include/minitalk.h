@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:19:39 by aklein            #+#    #+#             */
-/*   Updated: 2024/04/12 14:20:37 by aklein           ###   ########.fr       */
+/*   Updated: 2024/04/17 03:10:01 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,6 @@
 # define MINITALK_H
 
 # include <libft.h>
+# include <signal.h>
 
 #endif
