@@ -6,17 +6,17 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:33:17 by aklein            #+#    #+#             */
-/*   Updated: 2024/04/17 05:44:35 by aklein           ###   ########.fr       */
+/*   Updated: 2024/04/17 06:17:20 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minitalk.h>
 
-void	handle_sigusr(int sig, siginfo_t *siginfo, void *cont)
+void	handle_sigusr(int sig, siginfo_t *siginfo, void *context)
 {
 	static char	c = 0;
 	static int	i = 0;
-	(void)cont;
+	(void)context;
 
 	// ft_printf("signal '%d' from PID: %d\n", sig, siginfo->si_pid);
 	if (sig == SIGUSR1)

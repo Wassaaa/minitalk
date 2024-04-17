@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:33:25 by aklein            #+#    #+#             */
-/*   Updated: 2024/04/17 06:09:10 by aklein           ###   ########.fr       */
+/*   Updated: 2024/04/17 06:15:22 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,22 @@ void	acknowledge(int sig)
 {
 	(void)sig;
 }
+
+// void	acknowledge(int sig)
+// {
+// 	static char	c = 0;
+// 	static int	i = 0;
+	
+// 	if (sig == SIGUSR1)
+// 		c = c | (1 << (7 - i));
+// 	i++;
+// 	if (i > 7)
+// 	{
+// 		ft_printf("%c", c);
+// 		i = 0;
+// 		c = 0;
+// 	}
+// }
 
 #include <sys/time.h>
 
