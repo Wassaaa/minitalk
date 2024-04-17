@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:33:25 by aklein            #+#    #+#             */
-/*   Updated: 2024/04/17 06:15:22 by aklein           ###   ########.fr       */
+/*   Updated: 2024/04/17 18:55:42 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,27 @@ void	send_char(char c, int pid)
 	}
 }
 
+void	print_bits(char c)
+{
+	int	i;
+
+	i = 8;
+	while (i--)
+	{
+		ft_printf("%d", c >> i & 1);
+	}
+	ft_printf(" = %d\n", c);
+}
+
 void	send_str(char *str, int pid)
 {
 
 	while (*str)
+	{
+		print_bits(*str);
 		send_char(*str++, pid);
-	ft_printf("\n");
-	
+	}
+	send_char('\n', pid);
 }
 
 void	acknowledge(int sig)

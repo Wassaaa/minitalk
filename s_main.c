@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:33:17 by aklein            #+#    #+#             */
-/*   Updated: 2024/04/17 06:17:20 by aklein           ###   ########.fr       */
+/*   Updated: 2024/04/17 18:57:54 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	handle_sigusr(int sig, siginfo_t *siginfo, void *context)
 int	main()
 {
 	struct sigaction	action;
+	sigset_t			set;
 	int					pid;
 
 	pid = (int)getpid();
@@ -47,8 +48,12 @@ int	main()
 	snprintf(cmd, sizeof(cmd), "echo %d | xclip -selection clipboard", pid);
     system(cmd);
 
+	sigemptyset(&set);
+	sigaddset(&set, SIGUSR1);
+	sigaddset(&set, SIGUSR2);
 	ft_bzero(&action, sizeof(action));
 	action.sa_flags = SA_SIGINFO;
+	action.sa_mask = set;
 	action.sa_sigaction = &handle_sigusr;
 	sigaction(SIGUSR1, &action, NULL);
 	sigaction(SIGUSR2, &action, NULL);
