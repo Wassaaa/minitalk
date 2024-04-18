@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   c_main.c                                           :+:      :+:    :+:   */
+/*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:33:25 by aklein            #+#    #+#             */
-/*   Updated: 2024/04/19 02:16:57 by aklein           ###   ########.fr       */
+/*   Updated: 2024/04/19 02:49:15 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,17 @@ void	send_char(char c, int pid)
 
 	timeout = 0;
 	i = 8;
-	//usleep(100000);
 	while (i--)
 	{
 		g_signal_recieved = 0;
 		if (c >> i & 1)
-		{
 			kill(pid, SIGUSR1);
-			//ft_printf("1");
-		}
 		else
-		{
 			kill(pid, SIGUSR2);
-			//ft_printf("0");
-		}
 		while (!g_signal_recieved)
 		{
-			usleep(1000);
-			timeout += 1000;
+			usleep(100);
+			timeout += 100;
 			if (timeout > 1000000)
 			{
 				ft_printf("\nserver not responding, try again!\n");
@@ -46,32 +39,26 @@ void	send_char(char c, int pid)
 			}
 		}
 	}
-	ft_printf("\n");
-}
-
-void	send_str(char *str, int pid)
-{
-	while (*str)
-	{
-		//ft_printf("sending '%c' - ", *str);
-		send_char(*str++, pid);
-	}
 }
 
 void	acknowledge(int sig)
 {
-	if (sig == SIGUSR1 || sig == SIGUSR2)
+	if (sig == SIGUSR1)
 		g_signal_recieved = 1;
 }
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-int	server_pid()
+int	server_pid(void)
 {
-	int fd = open("spid", O_RDONLY);
-	char *spid = get_next_line(fd);
-	int pid = ft_atoi(spid);
+	int		fd;
+	char	*spid;
+	int		pid;
+
+	fd = open("spid", O_RDONLY);
+	spid = get_next_line(fd);
+	pid = ft_atoi(spid);
 	close(fd);
 	free(spid);
 	spid = NULL;
@@ -95,7 +82,8 @@ int	main(int argc, char **argv)
 		pid = server_pid();
 		/*---------*/
 		str = argv[2];
-		send_str(str, pid);
+		while (*str)
+			send_char(*str++, pid);
 	}
-	return(0);
+	return (0);
 }
