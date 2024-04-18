@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:33:25 by aklein            #+#    #+#             */
-/*   Updated: 2024/04/17 18:55:42 by aklein           ###   ########.fr       */
+/*   Updated: 2024/04/18 21:14:24 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,10 @@ void	print_bits(char c)
 
 void	send_str(char *str, int pid)
 {
-
 	while (*str)
 	{
-		print_bits(*str);
 		send_char(*str++, pid);
+		print_bits(*str);
 	}
 	send_char('\n', pid);
 }
@@ -59,7 +58,7 @@ void	acknowledge(int sig)
 // {
 // 	static char	c = 0;
 // 	static int	i = 0;
-	
+
 // 	if (sig == SIGUSR1)
 // 		c = c | (1 << (7 - i));
 // 	i++;
@@ -71,7 +70,19 @@ void	acknowledge(int sig)
 // 	}
 // }
 
-#include <sys/time.h>
+#include <stdlib.h>
+#include <stdio.h>
+
+int	server_pid()
+{
+	int fd = open("spid", O_RDONLY);
+	char *spid = get_next_line(fd);
+	int pid = ft_atoi(spid);
+	close(fd);
+	free(spid);
+	spid = NULL;
+	return (pid);
+}
 
 int	main(int argc, char **argv)
 {
@@ -79,24 +90,21 @@ int	main(int argc, char **argv)
 	char				*str;
 	struct sigaction	action;
 
-	long				elapsed;
-	struct timeval		start;
-	struct timeval 		end;
-	gettimeofday(&start, NULL);
-
 	if (argc == 3)
 	{
+		int	my_pid;
+
+		my_pid = (int)getpid();
 		ft_bzero(&action, sizeof(action));
 		action.sa_handler = acknowledge;
 		sigaction(SIGUSR1, &action, NULL);
 		sigaction(SIGUSR2, &action, NULL);
 		pid = ft_atoi(argv[1]);
+		/*remove me*/
+		pid = server_pid();
+		/*---------*/
 		str = argv[2];
 		send_str(str, pid);
 	}
-	gettimeofday(&end, NULL);
-	elapsed = (end.tv_sec - start.tv_sec) * 1000L;
-	elapsed += (end.tv_usec - start.tv_usec) / 1000;
-	ft_printf("%dms\n", elapsed);
 	return(0);
 }

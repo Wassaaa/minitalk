@@ -7,20 +7,31 @@
 		{
 			"type": "lldb",
 			"request": "launch",
-			"name": "(lldb) fixed args",
-			"program": "${workspaceFolder}/minitalk",
-			"args": [],
+			"name": "(lldb) client",
+			"program": "${workspaceFolder}/client",
+			"args": [
+				"${input:args}", "⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡"
+			],
 			"cwd": "${workspaceFolder}",
 			"preLaunchTask": "make",
+			"initCommands": [
+				"process handle SIGUSR1 --stop false --notify true",
+				"process handle SIGUSR2 --stop false --notify true"
+			  ]
+
 		},
 		{
 			"type": "lldb",
 			"request": "launch",
-			"name": "(lldb) minitalk prompt args",
-			"program": "${workspaceFolder}/minitalk",
-			"args": ["${input:args}"],
+			"name": "(lldb) server",
+			"program": "${workspaceFolder}/server",
+			"args": [],
 			"cwd": "${workspaceFolder}",
-			"preLaunchTask": "make"
+			"preLaunchTask": "make",
+			"initCommands": [
+				"process handle SIGUSR1 --stop false --notify true",
+				"process handle SIGUSR2 --stop false --notify true"
+			  ]
 		},
 	  {
 		"name": "(gdb) client",
@@ -75,7 +86,7 @@
 			"text": "handle SIGUSR1 nostop pass"
 		},
 		{
-			"description": "Disable breaking on SIGUSR2",
+			"description": "Disable breaking on SIG`USR2",
 			"text": "handle SIGUSR2 nostop pass"
 		},
 		]
@@ -83,8 +94,13 @@
 	],
 		"compounds": [
 			{
-				"name": "client and server Debug",
+				"name": "(gdb) client and server Debug",
 				"configurations": ["(gdb) client", "(gdb) server"]
+			},
+
+			{
+				"name": "(lldb) client and server Debug",
+				"configurations": ["(lldb) client", "(lldb) server"]
 			}
 		],
 	"inputs": [
