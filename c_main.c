@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:33:25 by aklein            #+#    #+#             */
-/*   Updated: 2024/04/18 21:14:24 by aklein           ###   ########.fr       */
+/*   Updated: 2024/04/18 21:52:46 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ void	send_str(char *str, int pid)
 {
 	while (*str)
 	{
-		send_char(*str++, pid);
 		print_bits(*str);
+		send_char(*str++, pid);
 	}
 	send_char('\n', pid);
 }

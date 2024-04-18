@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:33:17 by aklein            #+#    #+#             */
-/*   Updated: 2024/04/18 21:15:05 by aklein           ###   ########.fr       */
+/*   Updated: 2024/04/18 21:53:44 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,7 @@ void	handle_sigusr(int sig, siginfo_t *siginfo, void *context)
 		i = 0;
 		c = 0;
 	}
-	if (sig == SIGUSR1)
-		kill(siginfo->si_pid, SIGUSR1);
-	else
-		kill(siginfo->si_pid, SIGUSR2);
+	kill(siginfo->si_pid, SIGUSR1);
 }
 
 #include <stdio.h>
