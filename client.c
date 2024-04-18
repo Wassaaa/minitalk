@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:33:25 by aklein            #+#    #+#             */
-/*   Updated: 2024/04/19 02:49:15 by aklein           ###   ########.fr       */
+/*   Updated: 2024/04/19 02:53:11 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,24 +47,6 @@ void	acknowledge(int sig)
 		g_signal_recieved = 1;
 }
 
-#include <stdio.h>
-#include <stdlib.h>
-
-int	server_pid(void)
-{
-	int		fd;
-	char	*spid;
-	int		pid;
-
-	fd = open("spid", O_RDONLY);
-	spid = get_next_line(fd);
-	pid = ft_atoi(spid);
-	close(fd);
-	free(spid);
-	spid = NULL;
-	return (pid);
-}
-
 int	main(int argc, char **argv)
 {
 	int					pid;
@@ -78,9 +60,6 @@ int	main(int argc, char **argv)
 		sigaction(SIGUSR1, &action, NULL);
 		sigaction(SIGUSR2, &action, NULL);
 		pid = ft_atoi(argv[1]);
-		/*remove me*/
-		pid = server_pid();
-		/*---------*/
 		str = argv[2];
 		while (*str)
 			send_char(*str++, pid);

@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:33:17 by aklein            #+#    #+#             */
-/*   Updated: 2024/04/19 02:46:17 by aklein           ###   ########.fr       */
+/*   Updated: 2024/04/19 02:53:33 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,23 +54,6 @@ void	handle_sigusr(int sig, siginfo_t *siginfo, void *context)
 	kill(siginfo->si_pid, SIGUSR1);
 }
 
-#include <stdio.h>
-#include <stdlib.h>
-
-void	save_pid(int pid)
-{
-	char	*spid;
-	int		fd;
-
-	spid = ft_itoa(pid);
-	unlink("spid");
-	fd = open("spid", O_WRONLY | O_CREAT, 0777);
-	write(fd, spid, ft_strlen(spid));
-	close(fd);
-	free(spid);
-	spid = NULL;
-}
-
 int	main(void)
 {
 	struct sigaction	action;
@@ -84,9 +67,6 @@ int	main(void)
 	sigaction(SIGUSR1, &action, NULL);
 	sigaction(SIGUSR2, &action, NULL);
 	ft_printf("%d\n", pid);
-	/*remove me*/
-	save_pid(pid);
-	/*---------*/
 	last_busy = 0;
 	while (42)
 	{
