@@ -39,7 +39,7 @@
 		"request": "launch",
 		"program": "${workspaceFolder}/client",
 		"args": [
-			"${input:args}", "⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡"
+			"42", "Open a terminal aOpen a terminal and navigate to the directory where the script is saved.Open a terminal and navigate to the directory where the script is saved.Open a terminal and navigate to the directory where the script is saved.Open a terminal and navigate to the directory where the script is saved.Open a terminal and navigate to the directory where the script is saved.Open a terminal and navigate to the directory where the script is saved.Open a terminal and navigate to the directory where the script is saved.Open a terminal and navigate to the directory where the script is saved.Open a terminal and navigate to the directory where the script is saved.Open a terminal and navigate to the directory where the script is saved.Open a terminal and navigate to the directory where the script is saved.Open a terminal and navigate to the directory where the script is saved.Open a terminal and navigate to the directory where the script is saved.Open a terminal and navigate to the directory where the script is saved.Open a terminal and navigate to the directory where the script is saved.Open a terminal and navigate to the directory where the script is saved.Open a terminal and navigate to the directory where the script is saved.Open a terminal and navigate to the directory where the script is saved.Open a terminal and navigate to the directory where the script is saved.Open a terminal and navigate to the directory where the script is saved.nd navigate to the directory where the script is saved."
 		],
 		"stopAtEntry": false,
 		"cwd": "${workspaceFolder}",
@@ -55,11 +55,11 @@
 		  },
 		  {
 			"description": "Disable breaking on SIGUSR1",
-			"text": "handle SIGUSR1 nostop pass"
+			"text": "handle SIGUSR1 nostop noprint pass"
 		},
 		{
 			"description": "Disable breaking on SIGUSR2",
-			"text": "handle SIGUSR2 nostop pass"
+			"text": "handle SIGUSR2 nostop noprint pass"
 		},
 		]
 	  },
