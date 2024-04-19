@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:33:25 by aklein            #+#    #+#             */
-/*   Updated: 2024/04/19 14:55:56 by aklein           ###   ########.fr       */
+/*   Updated: 2024/04/19 14:58:29 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	send_char(char c, int pid)
 			kill(pid, SIGUSR2);
 		while (!g_signal_recieved)
 		{
-			usleep(100);
-			timeout += 100;
+			usleep(10);
+			timeout += 10;
 			if (timeout > 1000000)
 			{
 				ft_printf("\nserver not responding, try again!\n");
