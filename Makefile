@@ -6,7 +6,7 @@
 #    By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/12 14:15:32 by aklein            #+#    #+#              #
-#    Updated: 2024/04/19 02:44:30 by aklein           ###   ########.fr        #
+#    Updated: 2024/04/19 18:55:38 by aklein           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 ################################################################################
 CC				=	cc
 CC_STRICT		=	-Wall -Wextra -Werror
-CC_DEBUG		=	-g #-fsanitize=leak
+CC_DEBUG		=	#-g #-fsanitize=leak
 HEADERS			=	-I $(LIBFT_INCLUDES) -I $(INCLUDES)
 CC_FULL			=	$(CC) $(CC_STRICT) $(HEADERS) $(CC_DEBUG)
 

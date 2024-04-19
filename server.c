@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:33:17 by aklein            #+#    #+#             */
-/*   Updated: 2024/04/19 14:42:56 by aklein           ###   ########.fr       */
+/*   Updated: 2024/04/19 19:07:10 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	main(void)
 	last_busy = 0;
 	while (42)
 	{
-		usleep(10000);
+		usleep(100000);
 		if (g_is_busy == last_busy && last_busy != 0)
 		{
 			g_is_busy = 0;
