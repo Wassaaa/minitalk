@@ -6,24 +6,13 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:33:17 by aklein            #+#    #+#             */
-/*   Updated: 2024/04/19 19:07:10 by aklein           ###   ########.fr       */
+/*   Updated: 2024/04/20 05:37:58 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minitalk.h>
 
 volatile sig_atomic_t	g_is_busy = 0;
-
-static int	current_pid(int reset, int new_pid)
-{
-	static int	expected_pid = 0;
-
-	if (reset)
-		expected_pid = 0;
-	if (new_pid)
-		expected_pid = new_pid;
-	return (expected_pid);
-}
 
 void	handle_sigusr(int sig, siginfo_t *siginfo, void *context)
 {
@@ -32,22 +21,30 @@ void	handle_sigusr(int sig, siginfo_t *siginfo, void *context)
 	static int	current_expected_pid = 0;
 
 	(void)context;
-	if (current_pid(0, 0) == 0)
+	if (!g_is_busy)
 	{
-		current_pid(0, siginfo->si_pid);
+		current_expected_pid = siginfo->si_pid;
 		c = 0;
 		i = 0;
 	}
-	current_expected_pid = current_pid(0, 0);
 	if (current_expected_pid != siginfo->si_pid)
 		return ;
+	// ft_printf("(%d)", g_is_busy);
 	g_is_busy++;
 	if (sig == SIGUSR1)
 		c = c | (1 << (7 - i));
 	i++;
 	if (i > 7)
 	{
-		ft_printf("%c", c);
+		if (c == 0)
+		{
+			kill(current_expected_pid, SIGUSR2);
+			ft_printf("\n");
+			g_is_busy = 0;
+			return ;
+		}
+		else
+			ft_printf("%c", c);
 		i = 0;
 		c = 0;
 	}
@@ -70,14 +67,9 @@ int	main(void)
 	last_busy = 0;
 	while (42)
 	{
-		usleep(100000);
-		if (g_is_busy == last_busy && last_busy != 0)
-		{
+		usleep(10000);
+		if (g_is_busy == last_busy && g_is_busy != 0)
 			g_is_busy = 0;
-			kill(current_pid(0, 0), SIGUSR2);
-			current_pid(1, 0);
-			ft_printf("\n");
-		}
 		last_busy = g_is_busy;
 	}
 	return (0);
