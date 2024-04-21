@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:33:25 by aklein            #+#    #+#             */
-/*   Updated: 2024/04/20 05:41:24 by aklein           ###   ########.fr       */
+/*   Updated: 2024/04/21 16:59:28 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ void	send_char(char c, int pid)
 void	sending_finished(int sig)
 {
 	if (sig == SIGUSR2)
+	{
+		usleep(50);
 		ft_printf("Sending finished, recieved confirmation from server\n");
+	}
 	exit(0);
 }
 
@@ -62,15 +65,16 @@ int	validate_pid(char *pid)
 void	acknowledge(int sig)
 {
 	if (sig == SIGUSR1)
+	{
+		usleep(50);
 		g_signal_recieved = 1;
+	}
 }
 
 int	main(int argc, char **argv)
 {
 	int					pid;
 	char				*str;
-	struct sigaction	action;
-	struct sigaction	action_end;
 
 	if (argc == 3)
 	{
@@ -79,12 +83,8 @@ int	main(int argc, char **argv)
 			ft_printf("invalid PID\n");
 			return (1);
 		}
-		ft_bzero(&action, sizeof(action));
-		ft_bzero(&action_end, sizeof(action_end));
-		action.sa_handler = acknowledge;
-		action_end.sa_handler = sending_finished;
-		sigaction(SIGUSR1, &action, NULL);
-		sigaction(SIGUSR2, &action_end, NULL);
+		signal(SIGUSR1, acknowledge);
+		signal(SIGUSR2, sending_finished);
 		pid = ft_atoi(argv[1]);
 		str = argv[2];
 		while (*str)

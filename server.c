@@ -6,31 +6,18 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:33:17 by aklein            #+#    #+#             */
-/*   Updated: 2024/04/20 05:37:58 by aklein           ###   ########.fr       */
+/*   Updated: 2024/04/21 16:56:13 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minitalk.h>
 
-volatile sig_atomic_t	g_is_busy = 0;
-
 void	handle_sigusr(int sig, siginfo_t *siginfo, void *context)
 {
 	static char	c = 0;
 	static int	i = 0;
-	static int	current_expected_pid = 0;
 
-	(void)context;
-	if (!g_is_busy)
-	{
-		current_expected_pid = siginfo->si_pid;
-		c = 0;
-		i = 0;
-	}
-	if (current_expected_pid != siginfo->si_pid)
-		return ;
-	// ft_printf("(%d)", g_is_busy);
-	g_is_busy++;
+	(void)(context);
 	if (sig == SIGUSR1)
 		c = c | (1 << (7 - i));
 	i++;
@@ -38,9 +25,10 @@ void	handle_sigusr(int sig, siginfo_t *siginfo, void *context)
 	{
 		if (c == 0)
 		{
-			kill(current_expected_pid, SIGUSR2);
 			ft_printf("\n");
-			g_is_busy = 0;
+			i = 0;
+			c = 0;
+			kill(siginfo->si_pid, SIGUSR2);
 			return ;
 		}
 		else
@@ -67,10 +55,7 @@ int	main(void)
 	last_busy = 0;
 	while (42)
 	{
-		usleep(10000);
-		if (g_is_busy == last_busy && g_is_busy != 0)
-			g_is_busy = 0;
-		last_busy = g_is_busy;
+		pause();
 	}
 	return (0);
 }
