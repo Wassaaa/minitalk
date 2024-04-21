@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:33:25 by aklein            #+#    #+#             */
-/*   Updated: 2024/04/21 18:10:35 by aklein           ###   ########.fr       */
+/*   Updated: 2024/04/21 22:11:04 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	send_char(char c, int pid)
 	while (i--)
 	{
 		g_signal_recieved = 0;
+		usleep(10);
 		if (c >> i & 1)
 			kill(pid, SIGUSR1);
 		else
@@ -34,7 +35,7 @@ void	send_char(char c, int pid)
 			timeout += 50;
 			if (timeout > 1000000)
 			{
-				ft_printf("\nserver not responding, try again!\n");
+				ft_printf("\nserver not responding\n");
 				exit(1);
 			}
 		}
@@ -63,7 +64,7 @@ void	acknowledge(int sig)
 {
 	if (sig == SIGUSR1)
 	{
-		usleep(30);
+		usleep(40);
 		g_signal_recieved = 1;
 	}
 }
@@ -82,6 +83,11 @@ int	main(int argc, char **argv)
 		}
 		pid = ft_atoi(argv[1]);
 		str = argv[2];
+		if (kill(pid, 0) == -1)
+		{
+			ft_printf("No program with that PID\n");
+			return (1);
+		}
 		signal(SIGUSR1, acknowledge);
 		signal(SIGUSR2, sending_finished);
 		while (*str)
