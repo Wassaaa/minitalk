@@ -10,7 +10,7 @@
 			"name": "(lldb) client",
 			"program": "${workspaceFolder}/client",
 			"args": [
-				"42", "⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡"
+				"${input:args}", "testttest"
 			],
 			"cwd": "${workspaceFolder}",
 			"preLaunchTask": "make",

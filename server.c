@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:33:17 by aklein            #+#    #+#             */
-/*   Updated: 2024/04/20 05:37:58 by aklein           ###   ########.fr       */
+/*   Updated: 2024/04/21 18:09:47 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ void	handle_sigusr(int sig, siginfo_t *siginfo, void *context)
 		i = 0;
 		c = 0;
 	}
-	kill(siginfo->si_pid, SIGUSR1);
+	usleep(20);
+	kill(current_expected_pid, SIGUSR1);
 }
 
 int	main(void)

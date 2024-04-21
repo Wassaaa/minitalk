@@ -6,7 +6,7 @@
 /*   By: aklein <aklein@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 14:33:25 by aklein            #+#    #+#             */
-/*   Updated: 2024/04/20 05:41:24 by aklein           ###   ########.fr       */
+/*   Updated: 2024/04/21 18:10:35 by aklein           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	send_char(char c, int pid)
 			kill(pid, SIGUSR2);
 		while (!g_signal_recieved)
 		{
-			usleep(100);
-			timeout += 100;
+			usleep(50);
+			timeout += 50;
 			if (timeout > 1000000)
 			{
 				ft_printf("\nserver not responding, try again!\n");
@@ -62,15 +62,16 @@ int	validate_pid(char *pid)
 void	acknowledge(int sig)
 {
 	if (sig == SIGUSR1)
+	{
+		usleep(30);
 		g_signal_recieved = 1;
+	}
 }
 
 int	main(int argc, char **argv)
 {
 	int					pid;
 	char				*str;
-	struct sigaction	action;
-	struct sigaction	action_end;
 
 	if (argc == 3)
 	{
@@ -79,18 +80,14 @@ int	main(int argc, char **argv)
 			ft_printf("invalid PID\n");
 			return (1);
 		}
-		ft_bzero(&action, sizeof(action));
-		ft_bzero(&action_end, sizeof(action_end));
-		action.sa_handler = acknowledge;
-		action_end.sa_handler = sending_finished;
-		sigaction(SIGUSR1, &action, NULL);
-		sigaction(SIGUSR2, &action_end, NULL);
 		pid = ft_atoi(argv[1]);
 		str = argv[2];
+		signal(SIGUSR1, acknowledge);
+		signal(SIGUSR2, sending_finished);
 		while (*str)
 			send_char(*str++, pid);
 		send_char(0, pid);
 		sleep(1);
-		return (1);
+		return (0);
 	}
 }
